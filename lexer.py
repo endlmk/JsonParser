@@ -24,10 +24,23 @@ class Lexer:
             tok = jsontoken.Token(jsontoken.LBRACKET, self._ch)
         elif self._ch == ']':
             tok = jsontoken.Token(jsontoken.RBRACKET, self._ch)
+        elif self._ch == ',':
+            tok = jsontoken.Token(jsontoken.COMMA, self._ch)
+        elif self._ch == ':':
+            tok = jsontoken.Token(jsontoken.COLON, self._ch)
+        elif self._ch == '-':
+            tok = jsontoken.Token(jsontoken.MINUS, self._ch)
+        elif self._ch == '"':
+            s = self._read_string()
+            tok = jsontoken.Token(jsontoken.STRING, s)
         elif self._ch == '\0':
             tok = jsontoken.Token(jsontoken.EOF, '')
         else:
-            tok = jsontoken.Token(jsontoken.ILLEGAL, self._ch)
+            if self._ch.isdigit():
+                n = self._read_number()
+                return jsontoken.Token(jsontoken.INT, n)
+            else:
+                tok = jsontoken.Token(jsontoken.ILLEGAL, self._ch)
         
         self._read_char()
         return tok
@@ -46,3 +59,20 @@ class Lexer:
         while self._ch in {' ', '\t', '\n', '\r'}:
             self._read_char()
     
+    def _read_string(self):
+        self._read_char()
+
+        s = ""
+        while self._ch != '"':
+            s += self._ch
+            self._read_char()
+        
+        return s
+    
+    def _read_number(self):
+        s = ""
+        while self._ch.isdigit():
+            s += self._ch
+            self._read_char()
+        
+        return s  

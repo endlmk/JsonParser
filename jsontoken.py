@@ -7,6 +7,9 @@ LBRACE = '{'
 RBRACE = '}'
 LBRACKET = '['
 RBRACKET = ']'
+MINUS = "-"
+STRING = "STRING"
+INT = "INTEGER"
 EOF = "EOF"
 
 class Token:
