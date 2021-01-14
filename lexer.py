@@ -36,6 +36,10 @@ class Lexer:
         elif self._ch == '\0':
             tok = jsontoken.Token(jsontoken.EOF, '')
         else:
+            if self._ch.isalpha():
+                s = self._read_literal()
+                t = jsontoken.lookup_literal(s)
+                return jsontoken.Token(t, s)
             if self._ch.isdigit():
                 n = self._read_number()
                 return jsontoken.Token(jsontoken.INT, n)
@@ -75,4 +79,12 @@ class Lexer:
             s += self._ch
             self._read_char()
         
-        return s  
+        return s
+    
+    def _read_literal(self):
+        s = ""
+        while self._ch.isalpha():
+            s += self._ch
+            self._read_char()
+        
+        return s

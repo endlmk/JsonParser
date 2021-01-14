@@ -79,3 +79,35 @@ class TestLexer(unittest.TestCase):
             
             self.assertEqual(expected_token, t.token)
             self.assertEqual(expected_literal, t.literal)
+
+    def test_next_token_literal(self):
+        l = lexer.Lexer("""\
+{"abc": [true, null, false , "efg", 5] }
+ """)
+        tests = [
+            (jsontoken.LBRACE, '{'),
+            (jsontoken.STRING, "abc"),
+            (jsontoken.COLON, ':'),
+            (jsontoken.LBRACKET, '['),
+            (jsontoken.TRUE, "true"),
+            (jsontoken.COMMA, ','),
+            (jsontoken.NULL, "null"),
+            (jsontoken.COMMA, ','),
+            (jsontoken.FALSE, "false"),
+            (jsontoken.COMMA, ','),
+            (jsontoken.STRING, "efg"),
+            (jsontoken.COMMA, ','),
+            (jsontoken.INT, "5"),
+            (jsontoken.RBRACKET, ']'),
+            (jsontoken.RBRACE, '}'),
+            (jsontoken.EOF, ''),
+        ]
+
+        for t in tests:
+            expected_token = t[0]
+            expected_literal = t[1]
+
+            t = l.next_token()
+            
+            self.assertEqual(expected_token, t.token)
+            self.assertEqual(expected_literal, t.literal)

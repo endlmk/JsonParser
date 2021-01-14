@@ -10,6 +10,9 @@ RBRACKET = ']'
 MINUS = "-"
 STRING = "STRING"
 INT = "INTEGER"
+TRUE = "TRUE"
+FALSE = "FALSE"
+NULL = "NULL"
 EOF = "EOF"
 
 class Token:
@@ -18,3 +21,15 @@ class Token:
     def __init__(self, token, literal):
         self.token = token
         self.literal = literal
+
+def lookup_literal(s):
+    keywords = {
+        "true": TRUE,
+        "false": FALSE,
+        "null": NULL,
+    }
+    t = keywords.get(s)
+    if t != "":
+        return t
+    else:
+        return ILLEGAL
