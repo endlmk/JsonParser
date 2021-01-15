@@ -17,3 +17,10 @@ class TestParser(unittest.TestCase):
         l = lexer.Lexer("null")
         p = parser.Parser(l)
         self.assertEqual(None, p.parse())
+
+    def test_parse_string(self):
+        l = lexer.Lexer("""\
+"test"
+""")
+        p = parser.Parser(l)
+        self.assertEqual("test", p.parse())

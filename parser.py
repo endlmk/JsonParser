@@ -8,6 +8,7 @@ class Parser:
             jsontoken.TRUE: self._parse_boolean,
             jsontoken.FALSE: self._parse_boolean,
             jsontoken.NULL: self._parse_null,
+            jsontoken.STRING: self._parse_string,
         }
 
     def parse(self):
@@ -21,3 +22,6 @@ class Parser:
 
     def _parse_null(self, token):
         return None
+    
+    def _parse_string(self, token):
+        return token.literal
