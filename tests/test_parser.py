@@ -1,7 +1,8 @@
 import unittest
 
-import lexer
-import parser
+from JsonParser import jsontoken
+from JsonParser import lexer
+from JsonParser import parser
 
 class TestParser(unittest.TestCase):
 

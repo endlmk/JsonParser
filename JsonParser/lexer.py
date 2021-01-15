@@ -1,4 +1,4 @@
-import jsontoken
+from . import jsontoken
 
 class Lexer:
     """

@@ -1,5 +1,5 @@
-import jsontoken
-import lexer
+from . import jsontoken
+from . import lexer
 
 class Parser:
     def __init__(self, lexer):
