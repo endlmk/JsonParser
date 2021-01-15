@@ -7,7 +7,7 @@ class TestLexer(unittest.TestCase):
     def test_next_token_braces_brackets(self):
         l = lexer.Lexer("""\
 { [] }
- """)
+""")
         tests = [
             (jsontoken.LBRACE, '{'),
             (jsontoken.LBRACKET, '['),
@@ -28,7 +28,7 @@ class TestLexer(unittest.TestCase):
     def test_next_token_string(self):
         l = lexer.Lexer("""\
 ["abc", "567", "444"]
- """)
+""")
         tests = [
             (jsontoken.LBRACKET, '['),
             (jsontoken.STRING, "abc"),
@@ -52,7 +52,7 @@ class TestLexer(unittest.TestCase):
     def test_next_token_integer(self):
         l = lexer.Lexer("""\
 {"abc": 123, "567": 0, "444": -1 }
- """)
+""")
         tests = [
             (jsontoken.LBRACE, '{'),
             (jsontoken.STRING, "abc"),
@@ -83,7 +83,7 @@ class TestLexer(unittest.TestCase):
     def test_next_token_literal(self):
         l = lexer.Lexer("""\
 {"abc": [true, null, false , "efg", 5] }
- """)
+""")
         tests = [
             (jsontoken.LBRACE, '{'),
             (jsontoken.STRING, "abc"),

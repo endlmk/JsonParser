@@ -29,7 +29,7 @@ def lookup_literal(s):
         "null": NULL,
     }
     t = keywords.get(s)
-    if t != "":
+    if t != None:
         return t
     else:
         return ILLEGAL
