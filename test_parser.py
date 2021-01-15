@@ -24,3 +24,9 @@ class TestParser(unittest.TestCase):
 """)
         p = parser.Parser(l)
         self.assertEqual("test", p.parse())
+
+
+    def test_parse_integer(self):
+        l = lexer.Lexer("1")
+        p = parser.Parser(l)
+        self.assertEqual(1, p.parse())

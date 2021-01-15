@@ -9,6 +9,7 @@ class Parser:
             jsontoken.FALSE: self._parse_boolean,
             jsontoken.NULL: self._parse_null,
             jsontoken.STRING: self._parse_string,
+            jsontoken.INT: self._parse_integer,
         }
 
     def parse(self):
@@ -25,3 +26,6 @@ class Parser:
     
     def _parse_string(self, token):
         return token.literal
+    
+    def _parse_integer(self, token):
+        return int(token.literal)
