@@ -33,6 +33,10 @@ class TestParser(unittest.TestCase):
         p = parser.Parser(l)
         self.assertEqual([], p.parse())
 
+        l = lexer.Lexer('["array"]')
+        p = parser.Parser(l)
+        self.assertEqual(["array"], p.parse())
+
         l = lexer.Lexer("[1, 2, 3]")
         p = parser.Parser(l)
         self.assertEqual([1, 2, 3], p.parse())
@@ -40,3 +44,32 @@ class TestParser(unittest.TestCase):
         l = lexer.Lexer('[1, ["", "abc"], 3]')
         p = parser.Parser(l)
         self.assertEqual([1, ["", "abc"], 3], p.parse())
+
+    def test_parse_object(self):
+        l = lexer.Lexer("{ }")
+        p = parser.Parser(l)
+        self.assertEqual({}, p.parse())
+
+        l = lexer.Lexer('{"a": []}')
+        p = parser.Parser(l)
+        self.assertEqual({"a": []}, p.parse())
+
+        l = lexer.Lexer('{"abc": [1, 2, 3], "def": true, "ghi": "value"}')
+        p = parser.Parser(l)
+        self.assertEqual({"abc": [1, 2, 3], "def": True, "ghi": "value"}, p.parse())
+
+        l = lexer.Lexer("""\
+{
+    "test1": {
+        "abc": "def",
+        "cde": 5
+    }
+}
+""")
+        p = parser.Parser(l)
+        self.assertEqual({
+                "test1": {
+                    "abc": "def",
+                    "cde": 5
+                }
+            }, p.parse())

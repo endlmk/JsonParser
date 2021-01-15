@@ -11,6 +11,7 @@ class Parser:
             jsontoken.STRING: self._parse_string,
             jsontoken.INT: self._parse_integer,
             jsontoken.LBRACKET: self._parse_array,
+            jsontoken.LBRACE: self._parse_object,
         }
 
     def parse(self):
@@ -35,24 +36,40 @@ class Parser:
         array = []
 
         tok = self._lexer.next_token()
-        if tok.token == jsontoken.RBRACKET:
-            return array
 
-        while tok.token != jsontoken.EOF:
+        while tok.token != jsontoken.RBRACKET:
+            if tok.token == jsontoken.COMMA:
+                tok = self._lexer.next_token()
+
             val = self._parser_dict[tok.token](tok)
             array.append(val)
         
             tok = self._lexer.next_token()
-            if tok.token == jsontoken.RBRACKET:
-                return array
-            
-            if tok.token != jsontoken.COMMA:
+
+        return array
+
+    def _parse_object(self, token):
+        dictionary = {}
+
+        tok = self._lexer.next_token()
+
+        while tok.token != jsontoken.RBRACE: 
+            if tok.token == jsontoken.COMMA:
+                tok = self._lexer.next_token()
+
+            if tok.token != jsontoken.STRING:
                 return None
-            
+            key = self._parser_dict[tok.token](tok)
+
+            tok = self._lexer.next_token()
+            if tok.token != jsontoken.COLON:
+                return None
+
+            tok = self._lexer.next_token()
+            val = self._parser_dict[tok.token](tok)
+
+            dictionary[key] = val
+
             tok = self._lexer.next_token()
 
-
-
-
-
-        
+        return dictionary
